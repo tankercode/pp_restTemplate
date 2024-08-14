@@ -1,13 +1,5 @@
-import jakarta.servlet.ServletOutputStream;
-import jakarta.servlet.http.Cookie;
 import org.springframework.http.*;
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
-
-import java.util.Objects;
-import java.util.stream.Collectors;
 
 
 public class Cons {
@@ -30,14 +22,11 @@ public class Cons {
         HttpHeaders headers = new HttpHeaders();
         headers.set("Cookie", restTemplate.headForHeaders(url).getFirst("Set-Cookie"));
 
-        StringBuilder stringBuilder = new StringBuilder();
+        String result = saveUser(headers, url, restTemplate, new User(3L, "James", "Brown", (byte) 1)) +
+                updateUser(headers, url, restTemplate, new User(3L, "Thomas", "Shelby", (byte) 1)) +
+                deleteUser(headers, delete_url, restTemplate);
 
-        stringBuilder
-                .append(saveUser(headers, url, restTemplate, new User(3L, "James", "Brown", (byte)1)))
-                .append(updateUser(headers, url, restTemplate, new User(3L, "Thomas", "Shelby", (byte)1)))
-                .append(deleteUser(headers, delete_url, restTemplate));
-
-        System.out.println(stringBuilder);
+        System.out.println(result);
 
     }
 
